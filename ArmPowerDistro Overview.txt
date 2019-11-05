@@ -1,0 +1,37 @@
+Arm Power Distro Overview:
+
+total of 3 arm PDBs (2 on upper arm, one on lower arm)
+TODO: find out microcontroller - STM32 (exact model?)
+
+Key functions:
+	relays
+	read voltage & current on all lines (24V & 5V Rails) - find out sensor? protocol?
+	CAN bus
+
+Code Overview:
+	Initialisation:
+		open relays
+		init protocols (CAN, voltage/current sense)
+		
+	In Loop:
+		read voltage/current - sensor - INA226 over i2c
+		CAN incoming for relay shutoff (?) - refer to can spec
+		CAN outgoing voltage & current info - refer to can spec
+		
+Outline:
+
+	To Include:
+		i2c lib
+		can lib
+		manufacturer libraries
+		
+	Init:
+		Board Pins/Registers
+		Init_CAN
+		Init_i2c
+	
+	While(1):
+		Can msg check (arm shut off, etc.)
+		i2c read for voltage & current
+		assemble CAN packet to be sent
+		send CAN packet with voltage & current to BBB

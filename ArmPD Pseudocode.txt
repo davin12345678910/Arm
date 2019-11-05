@@ -1,0 +1,62 @@
+#include CAN lib
+#include i2c lib
+
+//Various Initialisations
+void Pin_Init(){
+	
+	//set pin registers
+	PIN - on or off
+	DDR - output or input
+}
+
+void Comms_Init(){
+	i2c_init() //from library
+	can_init() //set baud rate, incoming message filter, using lib
+}
+
+void Sensor_Setup(){
+	i2c_connect(sensor address)
+	refer to datasheet & sample INA226 code for setup, calibration, etc.
+}
+
+uint read_voltage(){
+	connect to sensor
+	send message to read voltage
+	return voltage value
+	convert to actual voltage calculation
+{
+
+uint read_current(){
+	same as above but read current
+}
+
+void CAN_send(uint_16 current, uint_16 voltage){
+	assemble CAN_frame struct with voltage and current
+	send to beaglebone
+}
+
+
+int main(){
+	
+	PIN_Init()
+	Comms_Init()
+	
+	Sensor_Setup()
+
+	while(1){
+		if(CAN message available){
+			read message
+			if(shutoff code){
+				change PIN to shut off power lines
+			}
+			add other CAN-based message interrupts here with respective message codes
+		}
+		
+		current = read_voltage()
+		
+		voltage = read_current()
+		
+		CAN_send(current,voltage)
+	
+	}
+}
